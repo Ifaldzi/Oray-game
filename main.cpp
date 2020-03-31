@@ -1,7 +1,7 @@
 #include"snake.h"
 
 struct oray *head = NULL, *tail = NULL;
-int score, gameState;
+int score, gameState, stage;
 
 int main(){
 	initwindow(MAX_WIDTH, MAX_HEIGHT, "Oray Game", CENTER_X, CENTER_Y);
@@ -13,7 +13,7 @@ int main(){
 			break;
 			case CLASSIC_GAMEPLAY: score = 0; classic();
 			break;
-			case ADVENTURE_GAMEPLAY: // adventure//
+			case ADVENTURE_GAMEPLAY: score = 0; adventure(stage);
 			break;
 			case GAME_OVER: gameOver();
 		}
