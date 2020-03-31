@@ -156,3 +156,15 @@ void printLeaderBoard(){
 	}
 	fclose(fp);
 }
+
+void removeItem(Coordinat itemCoordinate){
+	int page = getactivepage();
+	void *p;
+	int area;
+	setactivepage(3);
+	area = imagesize(0,0,30,30);
+	p = malloc(area);
+	getimage(itemCoordinate.x, itemCoordinate.y, itemCoordinate.x+30, itemCoordinate.y+30, p);
+	setactivepage(page);
+	putimage(itemCoordinate.x, itemCoordinate.y, p, 0);
+}
