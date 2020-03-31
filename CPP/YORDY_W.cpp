@@ -76,8 +76,8 @@ bool balikArah(int jamur){
 
 
 int timer(int interval){
-	int waktu = 10000;
-	if(interval >= waktu || interval == 0){
+	int waktu = 10;
+	if(interval >= waktu || interval == -1 ){
 		return 0;	
 	}else{
 		return 1;
@@ -90,11 +90,11 @@ int baka(int jamur,struct timeb lastTimeFood){
 	if(jamur == 1){
 		struct timeb currentTimeFood;
 		ftime(&currentTimeFood);
-		int interval = 1000 * (currentTimeFood.time - lastTimeFood.time) + (currentTimeFood.millitm - lastTimeFood.millitm);
+		int interval = (currentTimeFood.time - lastTimeFood.time);
 		printf("Time is A %d\n",interval);
 		return interval;
-	}else{
-		return 0;
+	}else if (jamur == 0){
+		return -1;
 	}
 }
 
@@ -114,19 +114,24 @@ void map1(int level){
 	}
 }
 
+
+
+
 void ular(int kecepatan,int map){
 	int area;
 	void *p, *background;;
 	char image[100];
-	Coordinat arah;
-	arah.x=30, arah.y=30;
+	int x=30, y=30;
 	int dir = VK_RIGHT;
 	int arahOray = KANAN;
 	int snakeSize = 5;
-	int snakeSpeed = 100;
-	int status = 1;
-	int interval1 = 0;
+	int status = 0;
+	int interval = -1;
+	int waktu;
+	int gold = 0;
 	struct timeb lastTimeFood;
+	struct timeb now;
+	ftime(&now);
 	Coordinat foodCoordinat;
 	Coordinat goldCoordinat,misteryBoxCoordinat;
 	head = NULL;
@@ -139,40 +144,68 @@ void ular(int kecepatan,int map){
 	area = imagesize(0,0,800,600);
 	p = malloc(area);
 	background = malloc(area);
-	if(map != CLASSIC){
-		goldCoordinat = random(2);
-		misteryBoxCoordinat = random(3);
+	if(map == CLASSIC){
+		goldCoordinat = random(1);
+		misteryBoxCoordinat = random(2);
 	}
 	foodCoordinat = random(1);
-	spawnFood(random(1));
+	spawnFood(foodCoordinat);
 	getimage(0,0,630,600,p);
 	push(0,0,"ular\\head_kanan.gif",KANAN);
-	spawnUlar(arah.x,arah.y,snakeSize);
-	push(arah.x,arah.y,"ular\\tail1.gif",KANAN);
+	spawnUlar(x,y,snakeSize);
+	push(x,y,"ular\\tail1.gif",KANAN);
 	printScore();
 	display();
 	setactivepage(2);
 	display();
 	for(;;){
-		printf("jamur is %d\n",status);
 		putimage(0,0,p,0);
 		printScore();
 		renderUlar();
-		arah = control(dir);
+		switch(dir){
+			case VK_LEFT:
+				x = head->x - 30;
+				y = head->y;
+				arahOray = KIRI;
+				strcpy(image, "ular\\body2.gif");
+				sprintf(head->imageName,"ular\\head%d.gif",arahOray);
+				break;
+			case VK_RIGHT:
+				x = head->x + 30;
+				y = head->y;
+				arahOray = KANAN;
+				strcpy(image, "ular\\body2.gif");
+				sprintf(head->imageName,"ular\\head%d.gif",arahOray);
+				break;
+			case VK_UP:
+				x = head->x;
+				y = head->y - 30;
+				arahOray = ATAS;
+				strcpy(image, "ular\\body.gif");
+				strcpy(head->imageName, "ular\\head3.gif");
+				break;
+			case VK_DOWN:
+				x = head->x;
+				y = head->y + 30;
+				arahOray = BAWAH;
+				strcpy(image, "ular\\body.gif");
+				strcpy(head->imageName, "ular\\head4.gif");
+				break;
+		}
 		sprintf(tail->imageName,"ular\\tail%d.gif",tail->prev->prev->dir);
 		if(GetKeyState(VK_LEFT) < 0 && dir != VK_RIGHT  ) {
 			if(dir == VK_UP){
 				if(balikArah(status)){
 					strcpy(image, "ular\\turn4.gif");
-					arah.x = head->x + 30;
-					arah.y = head->y;
+					x = head->x + 30;
+					y = head->y;
 					arahOray = KANAN;
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_RIGHT;
 				}else{
 					sprintf(image,"ular\\turn1.gif");
-					arah.y = head->y;
-					arah.x = head->x - 30;
+					y = head->y;
+					x = head->x - 30;
 					arahOray = KIRI;
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_LEFT;	
@@ -180,16 +213,16 @@ void ular(int kecepatan,int map){
 			}
 			else if(dir == VK_DOWN){
 				if(balikArah(status)){
-					arah.x = head->x + 30;
-					arah.y = head->y;
+					x = head->x + 30;
+					y = head->y;
 					arahOray = KANAN;
 					strcpy(image, "ular\\turn3.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_RIGHT;
 				}else{
 					sprintf(image,"ular\\turn2.gif");
-					arah.y = head->y;
-					arah.x = head->x - 30;
+					y = head->y;
+					x = head->x - 30;
 					arahOray = KIRI;
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_LEFT;	
@@ -200,14 +233,14 @@ void ular(int kecepatan,int map){
 			if(dir == VK_DOWN){
 				if(balikArah(status)){
 					sprintf(image,"ular\\turn2.gif");
-					arah.y = head->y;
-					arah.x = head->x - 30;
+					y = head->y;
+					x = head->x - 30;
 					arahOray = KIRI;
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_LEFT;	
 				}else{
-					arah.x = head->x + 30;
-					arah.y = head->y;
+					x = head->x + 30;
+					y = head->y;
 					arahOray = KANAN;
 					strcpy(image, "ular\\turn3.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
@@ -217,34 +250,35 @@ void ular(int kecepatan,int map){
 			else if(dir == VK_UP){
 				if(balikArah(status)){
 					sprintf(image,"ular\\turn1.gif");
-					arah.y = head->y;
-					arah.x = head->x - 30;
+					y = head->y;
+					x = head->x - 30;
 					arahOray = KIRI;
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_LEFT;	
 				}else{
 					strcpy(image, "ular\\turn4.gif");
-					arah.x = head->x + 30;
-					arah.y = head->y;
+					x = head->x + 30;
+					y = head->y;
 					arahOray = KANAN;
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_RIGHT;
 					
 				}
 			}
+			
 		} 
 		else if(GetKeyState(VK_UP) < 0 && dir != VK_DOWN){
 			if(dir == VK_RIGHT){
 				if(balikArah(status)){
-					arah.x = head->x;
-					arah.y = head->y + 30;
+					x = head->x;
+					y = head->y + 30;
 					arahOray = BAWAH;
 					strcpy(image, "ular\\turn1.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_DOWN;
 				}else{
-					arah.x = head->x;
-					arah.y = head->y - 30;
+					x = head->x;
+					y = head->y - 30;
 					arahOray = ATAS;
 					strcpy(image, "ular\\turn2.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
@@ -253,15 +287,15 @@ void ular(int kecepatan,int map){
 			}
 			else if(dir == VK_LEFT){
 				if(balikArah(status)){	
-					arah.x = head->x;
-					arah.y = head->y + 30;
+					x = head->x;
+					y = head->y + 30;
 					arahOray = BAWAH;
 					strcpy(image, "ular\\turn4.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_DOWN;
 				}else{
-					arah.x = head->x;
-					arah.y = head->y - 30;
+					x = head->x;
+					y = head->y - 30;
 					arahOray = ATAS;
 					strcpy(image, "ular\\turn3.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
@@ -272,15 +306,15 @@ void ular(int kecepatan,int map){
 		else if(GetKeyState(VK_DOWN) < 0 && dir != VK_UP){
 			if(dir == VK_RIGHT){
 				if(balikArah(status)){
-					arah.x = head->x;
-					arah.y = head->y - 30;
+					x = head->x;
+					y = head->y - 30;
 					arahOray = ATAS;
 					strcpy(image, "ular\\turn2.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_UP;
 				}else{
-					arah.x = head->x;
-					arah.y = head->y + 30;
+					x = head->x;
+					y = head->y + 30;
 					arahOray = BAWAH;
 					strcpy(image, "ular\\turn1.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
@@ -289,15 +323,15 @@ void ular(int kecepatan,int map){
 			}
 			else if(dir == VK_LEFT){
 				if(balikArah(status)){	
-					arah.x = head->x;
-					arah.y = head->y - 30;
+					x = head->x;
+					y = head->y - 30;
 					arahOray = ATAS;
 					strcpy(image, "ular\\turn3.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
 					dir = VK_UP;
 				}else{
-					arah.x = head->x;
-					arah.y = head->y + 30;
+					x = head->x;
+					y = head->y + 30;
 					arahOray = BAWAH;
 					strcpy(image, "ular\\turn4.gif");
 					sprintf(head->imageName,"ular\\head%d.gif",arahOray);
@@ -305,27 +339,41 @@ void ular(int kecepatan,int map){
 				}
 			}
 		}
-		if (CheckCollision(arah.x,arah.y)||collisionTembok()){
+		if (CheckCollision(x,y)||collisionTembok()){
 				getch();
-				interval1 = 0;
+				interval = 0;
 				popAll();
 				break;
-		}			
-		push(arah.x,arah.y,image,arahOray);
-		if(!checkCollisionFood(foodCoordinat)){
+		}
+		if(waktu == 15 && gold != 1){
+			ftime(&lastTimeFood);
+			goldCoordinat = random(2);
+			spawnGoldFood(goldCoordinat);
+			gold = 1;
+		}else if (gold == 0){
+			goldCoordinat.x = 0;
+			goldCoordinat.y = 0;
+			//Ilangin disini ifaldzi ................................
+		}
+		gold = timer(baka(gold,lastTimeFood));
+		printf("%d\n",gold);
+		push(x,y,image,arahOray);
+		if(!checkCollisionFood(foodCoordinat)&&!checkCollisionFood(goldCoordinat)){
 			pop();
 		}
+		else if(checkCollisionFood(goldCoordinat)){
+			score+=100;
+		}
 		else{
-//			status = 1;
-			ftime(&lastTimeFood);
+//			printf("Hello")
 			foodCoordinat = random(1);
-			goldCoordinat = random(2);
 			spawnFood(foodCoordinat);
-			spawnGoldFood(goldCoordinat);
 			score+=7;
 		}
-		interval1 = baka(status,lastTimeFood); 
-		status = timer(interval1);
+		waktu = baka(1,now);
+
+		//interval = baka(status,lastTimeFood); 
+		//status = timer(interval);
 		displayUlar();
 		getimage(0,0, 630, 600, p);
 		delay(kecepatan);
@@ -356,42 +404,6 @@ void adventure(int level){
 		ular(50,LEVEL1);
 	}
 		
-}
-
-Coordinat control(int dir){
-	Coordinat arah;
-	switch(dir){
-			case VK_LEFT:
-				arah.x = head->x - 30;
-				arah.y = head->y;
-//				strcpy(image, "ular\\body2.gif");
-				strcpy(head->imageName, "ular\\head2.gif");
-//				sprintf(head->imageName,"ular\\head%d.gif",KIRI);
-				break;
-			case VK_RIGHT:
-				arah.x = head->x + 30;
-				arah.y = head->y;
-//				arahOray = KANAN;
-//				strcpy(image, "ular\\body2.gif");
-				strcpy(head->imageName, "ular\\head1.gif");
-//				sprintf(head->imageName,"ular\\head%d.gif",KANAN);
-				break;
-			case VK_UP:
-				arah.x = head->x;
-				arah.y = head->y - 30;
-//				arahOray = ATAS;
-//				strcpy(image, "ular\\body.gif");
-				strcpy(head->imageName, "ular\\head3.gif");
-				break;
-			case VK_DOWN:
-				arah.x = head->x;
-				arah.x = head->y + 30;
-//				arahOray = BAWAH;
-//				strcpy(image, "ular\\body.gif");
-				strcpy(head->imageName, "ular\\head4.gif");
-				break;
-		}
-	return arah;
 }
 
 
