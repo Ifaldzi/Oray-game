@@ -1,7 +1,7 @@
 #ifndef AKMAL_R
 #define AKMAL_R
 
-Coordinat random();
+Coordinat random(int x);
 //random koordinat makanan
 void spawnFood(Coordinat foodCoordinat);
 //spawn makanan
