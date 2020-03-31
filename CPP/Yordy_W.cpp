@@ -107,10 +107,22 @@ void map1(int level){
 	}
 	else if(level == LEVEL1){
 		backgroundClassic();
-		border();
-	}else{
+		obstacleStage1();
+	}else if(level == LEVEL2){
 		backgroundClassic();
-		border();
+		obstacleStage2();
+	}
+	else if(level == LEVEL3){
+		backgroundClassic();
+		obstacleStage3();
+	}
+	else if(level == LEVEL4){
+		backgroundClassic();
+		obstacleStage4();
+	}
+	else if(level == LEVEL5){
+		backgroundClassic();
+		obstacleStage5();
 	}
 }
 
@@ -367,7 +379,7 @@ void ular(int kecepatan,int map){
 }
 
 void classic(){
-	ular(50,LEVEL1);
+	ular(50,CLASSIC);
 	getch();
 	popAll();
 	gameState = GAME_OVER;
@@ -378,18 +390,18 @@ void adventure(int level){
 		ular(50,LEVEL1);
 	}
 	else if(level == 2){
-		ular(50,LEVEL1);
+		ular(50,LEVEL2);
 	}
 	else if(level == 3){
-		ular(50,LEVEL1);
+		ular(50,LEVEL3);
 	}
 	else if(level == 4){
-		ular(50,LEVEL1);
+		ular(50,LEVEL4);
 	}
 	else if(level == 5){
-		ular(50,LEVEL1);
+		ular(50,LEVEL5);
 	}
-		
+	gameState = GAME_OVER;
 }
 
 

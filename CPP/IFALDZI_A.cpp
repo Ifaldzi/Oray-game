@@ -74,7 +74,8 @@ void gameOver(){
 	printFinalScore();
 	setvisualpage(getactivepage());
 	if(checkHighScore()){
-		outtextxy(350,350,"High score");
+		outtextxy(350,350,"In leaderboard");
+		putHighScore();
 	}
 	while(true){
 		if(ismouseclick(WM_LBUTTONDOWN)){
@@ -113,20 +114,45 @@ void printFinalScore(){
 
 bool checkHighScore(){
 	FILE *fp = fopen("High_Score.dat", "rb");
-	int tempScore;
-	fscanf(fp, "%d", &tempScore);
+	int tempScore, position = 0;
+	fread(&tempScore,sizeof(int),1,fp);
 	if(feof(fp)){
+		printf("%d", tempScore);
 		tempScore = 0;
+		return true;
 	}
 	else{
-		while(! feof(fp)){
+		while(! feof(fp) && position < 5){
 			if(score > tempScore) return true;
-			fscanf(fp, "%d", &tempScore);
+			fread(&tempScore,sizeof(int),1,fp);
+			position++;
 		}
-		return false;
+		if(position == 5) return false;
+		else return true;
 	}
 }
 
 void putHighScore(){
-	
+	FILE *fp = fopen("High_Score.dat", "rb+");
+	int position = 0, tempScore;
+	fread(&tempScore, sizeof(int), 1, fp);
+	while(! feof(fp) && position <5){
+		position++;
+		printf("%d\n",tempScore);
+		fread(&tempScore, sizeof(int), 1, fp);
+	}
+	fseek(fp,sizeof(int)*position, SEEK_SET);
+	fwrite(&score, sizeof(int),1,fp);
+	fclose(fp);
+}
+
+void printLeaderBoard(){
+	FILE *fp = fopen("High_Score.dat", "rb");
+	int tempScore;
+	fread(&tempScore, sizeof(int), 1, fp);
+	while(! feof(fp)){
+		printf("%d\n", tempScore);
+		fread(&tempScore, sizeof(int), 1, fp);
+	}
+	fclose(fp);
 }

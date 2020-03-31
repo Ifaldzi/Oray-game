@@ -45,28 +45,38 @@ void mainMenu(){
 						if ((x > 284 && x < 326) && (y > 236 && y < 279)){
 								clearviewport();
 								setviewport(0,0,800,600,1);	//Level 1
-								readimagefile("1.jpg",0,0,WIDTH,HEIGHT);
+								gameState = ADVENTURE_GAMEPLAY;
+								stage = 1;
 								swapbuffers();
+								return;
 						}else if ((x > 339 && x < 372) && (y > 323 && y < 355)){
 								clearviewport();
 								setviewport(0,0,800,600,1);	//Level 2
-								readimagefile("2.jpg",0,0,WIDTH,HEIGHT);
+								gameState = ADVENTURE_GAMEPLAY;
+								stage = 2;
 								swapbuffers();
+								return;
 						}else if((x > 406 && x < 454) && (y > 252 && y < 299)){
 								clearviewport();
 								setviewport(0,0,800,600,1);	
-								readimagefile("3.jpg",0,0,WIDTH,HEIGHT);
+								gameState = ADVENTURE_GAMEPLAY;
+								stage = 3;
 								swapbuffers();		//Level 3
+								return;
 						}else if((x > 436 && x < 486) && (y > 353 && y < 403)){	//level 4
 								clearviewport();
 								setviewport(0,0,800,600,1);	
-								readimagefile("4.jpg",0,0,WIDTH,HEIGHT);
+								gameState = ADVENTURE_GAMEPLAY;
+								stage = 4;
 								swapbuffers();
+								return;
 						}else if((x > 518 && x < 570) && (y > 279 && y < 332)){	//level 5
 								clearviewport();
 								setviewport(0,0,800,600,1);	
-								readimagefile("5.jpg",0,0,WIDTH,HEIGHT);
+								gameState = ADVENTURE_GAMEPLAY;
+								stage = 5;
 								swapbuffers();
+								return;
 						}else if((x > 347 && x < 500) && (y > 426 && y<456)){
 								kembali = true;
 						}
@@ -78,7 +88,7 @@ void mainMenu(){
 	
 		else if ((x > 318 && x < 558) && (y > 335 && y < 381)){
 			//Menampilkan High score
-			
+			printLeaderBoard();
 		}
 		else if ((x > 244 && x < 489) && (y > 398 && y < 445)){
 			while (!kembali){

@@ -124,7 +124,8 @@ void deleteAllNodeObs(tNode *p){
 	}
 	
 		printf("\t\t\t %d\n",11);
-	
+//		obstacleStage1();
+//		obstacleStage2();
 //	outtextxy(655,10,"SCORE");	
 
 }
@@ -133,8 +134,12 @@ void deleteAllNodeObs(tNode *p){
 
 void obstacleStage1(){
 	
-	deleteAllNodeObs(Head);
-
+while(Head!=NULL){				// Delete semua node sebelumnya
+	prev = Head;
+	Head = Head -> next;
+	free(prev);
+	}
+border();
 	int X = 0;
 	int Y = 0;
 	int i;
@@ -168,48 +173,613 @@ void obstacleStage1(){
 }
   
 void obstacleStage2(){				//gambar tembok belum fix
+	
+	while(Head!=NULL){				// Delete semua node sebelumnya
+	prev = Head;
+	Head = Head -> next;
+	free(prev);
+	}
+	border();
 	int X = 0;
 	int Y = 0;
 	int i;
 	
-	for( i = 0; i <3; i++){ // Middle Obs
+	// Middle Obs
+	for( i = 0; i <3; i++){ 
 		readimagefile("brick.GIF",X+270,Y+270,X+300,Y+300);
+		Obstacle.x = X+270;
+		Obstacle.y = 270;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	X=0;
+	Y=0;
+	for( i = 0; i <3; i++){ 
 		readimagefile("brick.GIF",X+270,Y+300,X+300,Y+330);
+		Obstacle.x = X+270;
+		Obstacle.y = 300;
+		insertFront(&Head, Obstacle);
+		
 		X=X+30;
 		
 	}
+	//Horizintal Obs
 	X = 0;
 	Y = 0;
-	for( i = 0; i <4; i++){	//Horizintal Obs 
-		//Top
-		readimagefile("brick.GIF",X+120,Y+120,X+150,Y+150);
-		readimagefile("brick.GIF",X+390,Y+120,X+420,Y+150);
+	//Top
+	for( i = 0; i <4; i++){	 
 		
+		readimagefile("brick.GIF",X+120,Y+120,X+150,Y+150);
+		Obstacle.x = X+120;
+		Obstacle.y = 120;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	X = 0;
+	Y = 0;
+	for( i = 0; i <4; i++){	 	
+		readimagefile("brick.GIF",X+390,Y+120,X+420,Y+150);
+		Obstacle.x = X+390;
+		Obstacle.y = 120;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	X = 0;
+	Y = 0;
 		//Bottom
+		for( i = 0; i <4; i++){	 
 		readimagefile("brick.GIF",X+120,MAX_Y-150,X+150,MAX_Y-180);
+		Obstacle.x = X+210;
+		Obstacle.y = 450;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	X = 0;
+	Y = 0;
+		for( i = 0; i <4; i++){
 		readimagefile("brick.GIF",X+390,MAX_Y-150,X+420,MAX_Y-180);
+		Obstacle.x = X+390;
+		Obstacle.y = 450;
+		insertFront(&Head, Obstacle);
 		X=X+30;
 	}
 	
 	X = 0;
 	Y = 0;
-	for( i = 0; i <4; i++){	//Vertical Obs 
+	//Vertical Obs 
+	for( i = 0; i <4; i++){	
 		//Top
 		readimagefile("brick.GIF",X+120,Y+120,X+150,Y+150);
-		readimagefile("brick.GIF",X+480,Y+120,X+510,Y+150);
-		
+		Obstacle.x = 120;
+		Obstacle.y = Y+120;
+		insertFront(&Head, Obstacle);
 		Y=Y+30;
 	}
 	X = 0;
 	Y = 0;
+		for( i = 0; i <4; i++){	
+		readimagefile("brick.GIF",X+480,Y+120,X+510,Y+150);
+		Obstacle.x = 480;
+		Obstacle.y = Y+120;
+		insertFront(&Head, Obstacle);
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+		//	Bottom
 	for(i=0;i<4;i++){
 		
-		//	Bottom
 		readimagefile("brick.GIF",X+120,Y+450,X+150,Y+420);
+		Obstacle.x = 120;
+		Obstacle.y = Y+450;
+		insertFront(&Head, Obstacle);
+		Y=Y-30;
+	}
+	X = 0;
+	Y = 0;
+	for(i=0;i<4;i++){
 		readimagefile("brick.GIF",X+480,Y+450,X+510,Y+420);
+		Obstacle.x = 480;
+		Obstacle.y = Y+450;
+		insertFront(&Head, Obstacle);
 		Y=Y-30;
 	}
 }
+
+void obstacleStage3(){
+	while(Head!=NULL){				// Delete semua node sebelumnya
+		prev = Head;
+		Head = Head -> next;
+		free(prev);
+	}
+	border();
+	int X = 0;
+	int Y = 0;
+	int i;
+	
+	//Horizontal
+	
+	//Mid left
+	for( i = 0; i <4; i++){ 
+		readimagefile("brick.GIF",X+120,Y+300,X+150,Y+330);
+		Obstacle.x = X+120;
+		Obstacle.y = 300;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	
+	//Mid Right
+	X = 0;
+	Y = 0;
+	for( i = 0; i <4; i++){ 
+		readimagefile("brick.GIF",X+390,Y+300,X+420,Y+330);
+		Obstacle.x = X+390;
+		Obstacle.y = 300;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	//Top Center
+	X = 0;
+	Y = 0;
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+270,Y+120,X+240,Y+150);
+		Obstacle.x = X+270;
+		Obstacle.y = 120;
+		insertFront(&Head, Obstacle);
+		X=X-30;
+	}
+	//Bot Center
+	X = 0;
+	Y = 0;
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+330,Y+450,X+360,Y+480);
+		Obstacle.x = X+330;
+		Obstacle.y = 450;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	
+	
+	
+	//Vertical
+	X = 0;
+	Y = 0;
+	//Mid Top
+	for( i = 0; i <4; i++){	
+		
+		readimagefile("brick.GIF",X+300,Y+120,X+330,Y+150);
+		Obstacle.x = 300;
+		Obstacle.y = Y+120;
+		insertFront(&Head, Obstacle);
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Mid Bot
+	for( i = 0; i <3; i++){	
+		
+		readimagefile("brick.GIF",X+300,Y+390,X+330,Y+420);
+		Obstacle.x = 300;
+		Obstacle.y = Y+390;
+		insertFront(&Head, Obstacle);
+		Y=Y+30;
+	}
+	X = 0;
+	Y = 0;
+	//Mid left
+	for( i = 0; i <2; i++){	
+		
+		readimagefile("brick.GIF",X+120,Y+330,X+150,Y+360);
+		Obstacle.x = 120;
+		Obstacle.y = Y+330;
+		insertFront(&Head, Obstacle);
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Mid Right
+	for( i = 0; i <2; i++){	
+		
+		readimagefile("brick.GIF",X+480,Y+270,X+510,Y+300);
+		Obstacle.x = 480;
+		Obstacle.y = Y+270;
+		insertFront(&Head, Obstacle);
+		Y=Y-30;
+	}
+}
+
+void obstacleStage4(){
+	
+	while(Head!=NULL){				// Delete semua node sebelumnya
+		prev = Head;
+		Head = Head -> next;
+		free(prev);
+	}
+	border();
+	
+	int X = 0;
+	int Y = 0;
+	int i;
+	
+	//Horizontal
+	
+	//Mid left
+	for( i = 0; i <4; i++){ 
+		readimagefile("brick.GIF",X+120,Y+300,X+150,Y+330);
+		Obstacle.x = X+120;
+		Obstacle.y = 300;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	
+	//Mid Right
+	X = 0;
+	Y = 0;
+	for( i = 0; i <4; i++){ 
+		readimagefile("brick.GIF",X+390,Y+300,X+420,Y+330);
+		Obstacle.x = X+390;
+		Obstacle.y = 300;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+	}
+	
+	
+	
+	
+	//Vertical
+	X = 0;
+	Y = 0;
+	//Mid Top
+	for( i = 0; i <4; i++){	
+		
+		readimagefile("brick.GIF",X+300,Y+120,X+330,Y+150);
+		Obstacle.x = 300;
+		Obstacle.y = Y+120;
+		insertFront(&Head, Obstacle);
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Mid Bot
+	for( i = 0; i <4; i++){	
+		
+		readimagefile("brick.GIF",X+300,Y+390,X+330,Y+420);
+		Obstacle.x = 300;
+		Obstacle.y = Y+390;
+		insertFront(&Head, Obstacle);
+		Y=Y+30;
+	}
+	
+	//Cross Obstacle
+	X = 0;
+	Y = 0;
+	//Kiri atas
+	for( i = 0; i <6; i++){ 
+		readimagefile("brick.GIF",X+90,Y+90,X+120,Y+120);
+		Obstacle.x = X+90;
+		Obstacle.y = Y+90;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Kanan atas
+	for( i = 0; i <6; i++){ 
+		readimagefile("brick.GIF",X+510,Y+90,X+540,Y+120);
+		Obstacle.x = X+510;
+		Obstacle.y = Y+90;
+		insertFront(&Head, Obstacle);
+		X=X-30;
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Kiri bawah
+	for( i = 0; i <6; i++){ 
+		readimagefile("brick.GIF",X+90,Y+510,X+120,Y+540);
+		Obstacle.x = X+90;
+		Obstacle.y = Y+510;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+		Y=Y-30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Kanan Bawah
+	for( i = 0; i <6; i++){ 
+		readimagefile("brick.GIF",X+510,Y+510,X+540,Y+540);
+		Obstacle.x = X+510;
+		Obstacle.y = Y+510;
+		insertFront(&Head, Obstacle);
+		X=X-30;
+		Y=Y-30;
+	}
+
+	
+}
+void obstacleStage5(){
+	
+	while(Head!=NULL){				// Delete semua node sebelumnya
+		prev = Head;
+		Head = Head -> next;
+		free(prev);
+	}
+	border();
+	
+	
+	//Mid Obstacle
+	int X = 0;
+	int Y = 0;
+	int i;
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+270,Y+270,X+300,Y+300);
+		Obstacle.x = X+270;
+		Obstacle.y = 270;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+		
+	}
+	
+	X = 0;
+	Y = 0;
+	
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+270,Y+300,X+300,Y+330);
+		Obstacle.x = X+270;
+		Obstacle.y = 300;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+		
+	}
+	
+	X = 0;
+	Y = 0;
+	
+	//Cross mid Obstacle
+	
+	//kiri atas
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+240,Y+240,X+270,Y+270);
+		Obstacle.x = X+240;
+		Obstacle.y = Y+240;
+		insertFront(&Head, Obstacle);
+		X=X-30;
+		Y=Y-30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//kanan atas
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+360,Y+240,X+390,Y+270);
+		Obstacle.x = X+360;
+		Obstacle.y = Y+240;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+		Y=Y-30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//kiri bawah
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+240,Y+330,X+270,Y+360);
+		Obstacle.x = X+240;
+		Obstacle.y = Y+330;
+		insertFront(&Head, Obstacle);
+		X=X-30;
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//kanan bawah
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+360,Y+330,X+390,Y+360);
+		Obstacle.x = X+360;
+		Obstacle.y = Y+330;
+		insertFront(&Head, Obstacle);
+		X=X+30;
+		Y=Y+30;
+	}
+	
+	//Vertical Obstacle			
+	
+	X = 0;
+	Y = 0;
+	//Kiri atas
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+150,Y+150,X+180,Y+180);
+		Obstacle.x = 150;
+		Obstacle.y = Y+150;
+		insertFront(&Head, Obstacle);
+	
+		Y=Y-30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Kanan Atas
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+450,Y+150,X+480,Y+180);
+		Obstacle.x = 450;
+		Obstacle.y = Y+150;
+		insertFront(&Head, Obstacle);
+	
+		Y=Y-30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Kiri Bawah
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+150,Y+420,X+180,Y+450);
+		Obstacle.x = 150;
+		Obstacle.y = Y+420;
+		insertFront(&Head, Obstacle);
+	
+		Y=Y+30;
+	}
+	
+	X = 0;
+	Y = 0;
+	//Kanan Bawah
+	for( i = 0; i <2; i++){ 
+		readimagefile("brick.GIF",X+450,Y+420,X+480,Y+450);
+		Obstacle.x = 450;
+		Obstacle.y = Y+420;
+		insertFront(&Head, Obstacle);
+	
+		Y=Y+30;
+	}
+	
+	//Horizontal Obstacle
+	
+	X = 0;
+	Y = 0;	
+	//Atas
+	for( i = 0; i <10; i++){ 
+		readimagefile("brick.GIF",X+150,Y+120,X+180,Y+150);
+		Obstacle.x = X+150;
+		Obstacle.y = 120;
+		insertFront(&Head, Obstacle);
+	
+		X=X+30;
+	}
+
+	X = 0;
+	Y = 0;	
+	//Bawah
+	for( i = 0; i <10; i++){ 
+		readimagefile("brick.GIF",X+150,Y+450,X+180,Y+480);
+		Obstacle.x = X+150;
+		Obstacle.y = 450;
+		insertFront(&Head, Obstacle);
+	
+		X=X+30;
+	}
+	
+	//Cross bingkai
+	
+	X = 0;
+	Y = 0;	
+	//Kiri Atas
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+60,Y+120,X+90,Y+150);
+		Obstacle.x = X+60;
+		Obstacle.y = Y+120;
+		insertFront(&Head, Obstacle);
+		
+		X=X+30;
+		Y=Y-30;	
+	}
+	
+	X = 0;
+	Y = 0;	
+	//Kanan Atas
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+540,Y+120,X+570,Y+150);
+		Obstacle.x = X+540;
+		Obstacle.y = Y+120;
+		insertFront(&Head, Obstacle);
+		
+		X=X-30;
+		Y=Y-30;	
+	}
+	
+	X = 0;
+	Y = 0;	
+	//Kiri bawah
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+60,Y+450,X+90,Y+480);
+		Obstacle.x = X+60;
+		Obstacle.y = Y+450;
+		insertFront(&Head, Obstacle);
+		
+		X=X+30;
+		Y=Y+30;	
+	}
+	X = 0;
+	Y = 0;	
+	//Kanan bawah
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+540,Y+450,X+570,Y+480);
+		Obstacle.x = X+540;
+		Obstacle.y = Y+450;
+		insertFront(&Head, Obstacle);
+		
+		X=X-30;
+		Y=Y+30;	
+	}
+	
+	//Horizontal Mid Obstacle
+	
+	X = 0;
+	Y = 0;	
+	//Kiri Mid
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+60,Y+240,X+90,Y+270);
+		Obstacle.x = X+60;
+		Obstacle.y = 240;
+		insertFront(&Head, Obstacle);
+		
+		X=X+30;
+	
+	}
+	
+	X = 0;
+	Y = 0;	
+	//Kiri Mid
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+60,Y+330,X+90,Y+360);
+		Obstacle.x = X+60;
+		Obstacle.y = 330;
+		insertFront(&Head, Obstacle);
+		
+		X=X+30;
+	
+	}
+	
+	X = 0;
+	Y = 0;	
+	//Kanan Mid
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+480,Y+240,X+510,Y+270);
+		Obstacle.x = X+480;
+		Obstacle.y = 240;
+		insertFront(&Head, Obstacle);
+		
+		X=X+30;
+	
+	}
+	
+	X = 0;
+	Y = 0;	
+	//Kanan Mid
+	for( i = 0; i <3; i++){ 
+		readimagefile("brick.GIF",X+480,Y+330,X+510,Y+360);
+		Obstacle.x = X+480;
+		Obstacle.y = 330;
+		insertFront(&Head, Obstacle);
+		
+		X=X+30;
+	
+	}
+	
+	
+	
+
+
+}
+
 
 bool collisionTembok(){
 	struct oray *p = head;
