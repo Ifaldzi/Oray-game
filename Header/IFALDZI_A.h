@@ -21,4 +21,6 @@ bool checkHighScore();
 
 void putHighScore();
 
+void printLeaderBoard();
+
 #endif
