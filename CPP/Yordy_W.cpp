@@ -76,8 +76,8 @@ bool balikArah(int jamur){
 
 
 int timer(int interval){
-	int waktu = 10000;
-	if(interval >= waktu || interval == 0){
+	int waktu = 10;
+	if(interval >= waktu || interval == -1 ){
 		return 0;	
 	}else{
 		return 1;
@@ -90,11 +90,11 @@ int baka(int jamur,struct timeb lastTimeFood){
 	if(jamur == 1){
 		struct timeb currentTimeFood;
 		ftime(&currentTimeFood);
-		int interval = 1000 * (currentTimeFood.time - lastTimeFood.time) + (currentTimeFood.millitm - lastTimeFood.millitm);
+		int interval = (currentTimeFood.time - lastTimeFood.time);
 		printf("Time is A %d\n",interval);
 		return interval;
-	}else{
-		return 0;
+	}else if (jamur == 0){
+		return -1;
 	}
 }
 
@@ -134,14 +134,18 @@ void ular(int kecepatan,int map){
 	void *p, *background;;
 	char image[100];
 	int x=30, y=30;
-	int dir = VK_RIGHT, prevDir;
+	int dir = VK_RIGHT;
 	int arahOray = KANAN;
 	int snakeSize = 5;
-	int snakeSpeed = 100;
-	int status = 1;
-	int interval1 = 0;
+	int status = 0;
+	int interval = -1;
+	int waktu;
+	int gold = 0;
 	struct timeb lastTimeFood;
+	struct timeb now;
+	ftime(&now);
 	Coordinat foodCoordinat;
+	Coordinat goldCoordinat,misteryBoxCoordinat;
 	head = NULL;
 	cleardevice();
 	setactivepage(3);
@@ -151,15 +155,13 @@ void ular(int kecepatan,int map){
 	map1(map);
 	area = imagesize(0,0,800,600);
 	p = malloc(area);
-//	food(map,)
-	Coordinat goldCoordinat,misteryBoxCoordinat;
 	background = malloc(area);
-	if(map != CLASSIC){
-		goldCoordinat = random();
-		misteryBoxCoordinat = random();
+	if(map == CLASSIC){
+		goldCoordinat = random(2);
+		misteryBoxCoordinat = random(2);
 	}
-	foodCoordinat = random();
-	spawnFood(random());
+	foodCoordinat = random(1);
+	spawnFood(foodCoordinat);
 	getimage(0,0,630,600,p);
 	push(0,0,"ular\\head_kanan.gif",KANAN);
 	spawnUlar(x,y,snakeSize);
@@ -169,7 +171,6 @@ void ular(int kecepatan,int map){
 	setactivepage(2);
 	display();
 	for(;;){
-		printf("jamur is %d\n",status);
 		putimage(0,0,p,0);
 		printScore();
 		renderUlar();
@@ -352,25 +353,42 @@ void ular(int kecepatan,int map){
 		}
 		if (CheckCollision(x,y)||collisionTembok()){
 				getch();
-				interval1 = 0;
+				interval = 0;
 				popAll();
 				break;
-		}			
+		}
+		if(waktu == 15 && gold != 1){
+			ftime(&lastTimeFood);
+			goldCoordinat = random(2);
+//			goldCoordinat.x = 30;
+//			goldCoordinat.y = 60;
+			spawnGoldFood(goldCoordinat);
+			gold = 1;
+		}else if (gold == 0){
+			removeItem(goldCoordinat);
+			goldCoordinat.x = 0;
+			goldCoordinat.y = 0;
+			//Ilangin disini ifaldzi ................................
+		}
+		gold = timer(baka(gold,lastTimeFood));
+		printf("%d\n",gold);
 		push(x,y,image,arahOray);
-		if(!checkCollisionFood(foodCoordinat)){
+		if(!checkCollisionFood(foodCoordinat)&&!checkCollisionFood(goldCoordinat)){
 			pop();
 		}
+		else if(checkCollisionFood(goldCoordinat)){
+			score+=100;
+		}
 		else{
-//			status = 1;
-			ftime(&lastTimeFood);
-			foodCoordinat = random();
-			goldCoordinat = random();
+//			printf("Hello")
+			foodCoordinat = random(1);
 			spawnFood(foodCoordinat);
-			spawnGoldFood(goldCoordinat);
 			score+=7;
 		}
-		interval1 = baka(status,lastTimeFood); 
-		status = timer(interval1);
+		waktu = baka(1,now);
+
+		//interval = baka(status,lastTimeFood); 
+		//status = timer(interval);
 		displayUlar();
 		getimage(0,0, 630, 600, p);
 		delay(kecepatan);
