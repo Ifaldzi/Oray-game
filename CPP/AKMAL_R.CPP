@@ -45,10 +45,11 @@ int misteryBoxRatio(){
 }
 
 void transisi(){
-	int level = 1;
-	adventure(level);
 	if(makanan == 0){
 		readimagefile("stageclear.jpg",0,0,0,0);
 		level++;
-	}	
+		adventure(stage);
+	}else{
+		gameState = GAME_OVER;
+	}
 }
