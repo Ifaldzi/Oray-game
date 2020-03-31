@@ -11,5 +11,7 @@ void spawnMisteryBox(Coordinat foodCoordinat);
 //spawn mistery box
 int misteryBoxRatio();
 //memberikan presentase antara poison dan pemendekan.
+void transisi();
+//transisi tiap level pada mode adventure.
 
 #endif
