@@ -3,10 +3,10 @@
 #define X_MAX 600
 #define Y_MAX 600
 
-Coordinat random(){
+Coordinat random(int x){
 	
 	Coordinat randomFood;
-	srand(time(0));
+	srand((unsigned)time(NULL)+x);
 	do{
 		randomFood.x = (rand() % X_MAX);
 		randomFood.y = (rand() % Y_MAX);
@@ -43,4 +43,5 @@ int misteryBoxRatio(){
 		return POISON;
 	}	
 }
+
 
