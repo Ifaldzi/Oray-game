@@ -46,19 +46,9 @@ int misteryBoxRatio(){
 
 void transisi(){
 	int level = 1;
-	int makanan = 10;
-	
-	while(level <5){
-		adventure(level);
-		while (makanan>=1){
-			if (!checkCollisionFood(foodCoordinat)){
-				makanan--;
-			}
-		}
-		if(makanan == 0){
-			readimagefile("stageclear.jpg",0,0,0,0);
-		}
+	adventure(level);
+	if(makanan == 0){
+		readimagefile("stageclear.jpg",0,0,0,0);
 		level++;
-		makanan += 5;
-	}
+	}	
 }
