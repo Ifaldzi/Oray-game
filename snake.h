@@ -68,7 +68,7 @@ extern tNode *Head, *pNew,*prev;
 
 extern struct oray *head, *tail;
 
-extern int score, gameState;
+extern int score, gameState, stage;
 
 extern void *bk;
 
