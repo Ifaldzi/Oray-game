@@ -23,4 +23,6 @@ void putHighScore();
 
 void printLeaderBoard();
 
+void removeItem(Coordinat itemCoordinate);
+
 #endif
