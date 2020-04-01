@@ -25,7 +25,6 @@ void map(int level);
 
 void adventure(int level);
 
+bool CheckCollisionFood(Coordinat food, int x);
+
 #endif
-
-
-
