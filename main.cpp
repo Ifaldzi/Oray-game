@@ -1,7 +1,7 @@
 #include"snake.h"
 
 struct oray *head = NULL, *tail = NULL;
-int score, gameState, stage;
+int score, gameState, stage, snakeSpeed;
 
 int main(){
 	initwindow(MAX_WIDTH, MAX_HEIGHT, "Oray Game", CENTER_X, CENTER_Y);

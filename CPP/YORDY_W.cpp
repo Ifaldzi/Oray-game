@@ -104,8 +104,8 @@ bool balikArah(int jamur){
 }
 
 
-int timer(int interval){
-	int waktu = 10;
+int timer(int interval,int x){
+	int waktu = x;
 	if(interval >= waktu || interval == -1 ){
 		return 0;	
 	}else{
@@ -168,14 +168,16 @@ void ular(int kecepatan,int map){
 	int snakeSize = 5;
 	int status = 0;
 	int interval = -1;
-	int waktu;
+	int waktu = 0;
 	int gold = 0;
 	int box = 0;
 	int makanan = 0;
+	int timeGold = randomwaktu(waktu);
+	int timeBox = randomwaktu(waktu);
 	struct timeb lastTimeFood;
 	struct timeb now;
-//	Coordinat foodCoordinat;
-//	Coordinat goldCoordinat,misteryBoxCoordinat;
+	struct timeb lastTimeGold;
+	struct timeb lastTimeBox;
 	head = NULL;
 	cleardevice();
 	setactivepage(3);
@@ -386,31 +388,18 @@ void ular(int kecepatan,int map){
 		}
 		if(map != CLASSIC){
 			printMakananSisa(map, makanan);
-			if(waktu == 5 && box != 1){
-				ftime(&lastTimeFood);//Ganti
+			if(waktu == timeBox && box != 1){
+				ftime(&lastTimeBox);
 				misteryBoxCoordinat = random(BOX);
 				spawnMisteryBox(misteryBoxCoordinat);
 				box = 1;
-			}else if( box == 0){
+			}else if( box == 0){ 
 				removeItem(misteryBoxCoordinat);
 				misteryBoxCoordinat.x = 0;
 				misteryBoxCoordinat.y = 0;
-			}
-			if(waktu == 15 && gold != 1){
-				ftime(&lastTimeFood);
-				goldCoordinat = random(GOLD);
-				spawnGoldFood(goldCoordinat);
-				gold = 1;
-			}else if (gold == 0){
-				removeItem(goldCoordinat);
-				goldCoordinat.x = 0;
-				goldCoordinat.y = 0;
-				//Ilangin disini ifaldzi ................................
-			}
-			if(gold == 1){
-				gold = timer(baka(gold,lastTimeFood));
-			}else if (box == 1){
-	//			box = timer(baka(box,lastTimeFood));
+				if(timeBox < waktu){
+					timeBox = randomwaktu(waktu);
+				}
 			}
 			if(makanan == map){
 				//Transisi di sini
@@ -418,26 +407,46 @@ void ular(int kecepatan,int map){
 				break;
 			}	
 			interval = baka(status,lastTimeFood); 
-			status = timer(interval);
+			printf("interval %d\n",interval);
+			status = timer(interval,10);
 		}
-		printf("staus is %d\n",status);
+		if(waktu == timeGold && gold != 1){
+				ftime(&lastTimeGold);
+				goldCoordinat = random(GOLD);
+				spawnGoldFood(goldCoordinat);
+				gold = 1;
+			}else if (gold == 0){
+				removeItem(goldCoordinat);
+				goldCoordinat.x = 0;
+				goldCoordinat.y = 0;
+				if(timeGold < waktu){
+				timeGold = randomwaktu(waktu);
+				}
+			}
+			if(gold == 1){
+				gold = timer(baka(gold,lastTimeGold),5);
+				
+			}else if (box == 1){
+				box = timer(baka(box,lastTimeBox),5);
+			}
 		push(x,y,image,arahOray);
 		if(!checkCollisionFood(foodCoordinat)&&!checkCollisionFood(goldCoordinat)&&!checkCollisionFood(misteryBoxCoordinat)){
 			pop();
 		}
 		else if(checkCollisionFood(goldCoordinat)){
-			score+=100;
+			score+=50;
 			gold = 0;
+			timeGold = randomwaktu(waktu);
 		}
 		else if(checkCollisionFood(misteryBoxCoordinat)){
 			status = misteryBoxRatio();
 			if(status == 2){
 				pop();
 				pop();
+			}else if(status == 1){
+				ftime(&lastTimeFood);
 			}
-			else if(status == 1){
-				printWaktuPoison(interval);
-			}
+			timeBox = randomwaktu(waktu);
 		}
 		else{
 			foodCoordinat = random(FOOD);
@@ -445,7 +454,11 @@ void ular(int kecepatan,int map){
 			score+=7;
 			makanan++;
 		}
+		if(status == 1){
+			printWaktuPoison(interval);
+		}
 		waktu = baka(1,now);
+//		printf("%d\n",waktu);
 		displayUlar();
 		getimage(0,0, 800, 600, p);
 		delay(kecepatan);
@@ -463,22 +476,29 @@ void classic(){
 
 void adventure(int level){
 	if(level == 1){
-		ular(50,LEVEL1);
+		ular(snakeSpeed,LEVEL1);
 	}
 	else if(level == 2){
-		ular(50,LEVEL2);
+		ular(snakeSpeed,LEVEL2);
 	}
 	else if(level == 3){
-		ular(50,LEVEL3);
+		ular(snakeSpeed,LEVEL3);
 	}
 	else if(level == 4){
-		ular(50,LEVEL4);
+		ular(snakeSpeed,LEVEL4);
 	}
 	else if(level == 5){
-		ular(50,LEVEL5);
+		ular(snakeSpeed,LEVEL5);
 	}
 //	gameState = GAME_OVER;
 	gameOver(gameState);
 }
 
+int randomwaktu(int waktu){
+	int lower = waktu+10;
+	int upper = waktu+25;
+	int acak = (rand() %  (upper - lower + 1)) + lower;
+	srand(time(0));
+	return acak;
+}
 

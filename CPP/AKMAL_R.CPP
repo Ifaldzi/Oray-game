@@ -46,7 +46,7 @@ int misteryBoxRatio(){
 
 void transisi(){
 	if(stage <5){
-		readimagefile("stageclear.gif",0,0,620,600);
+		readimagefile("stageclear.gif",0,0,630,600);
 		stage++;
 		setvisualpage(getactivepage());
 		delay(5000);
@@ -60,7 +60,12 @@ void transisi(){
 void printMakananSisa(int map,int makanan){
 	
 	char foodText[10];
-	sprintf(foodText, "%d",map-makanan);
+	if(map - makanan >= 10){
+		sprintf(foodText, "%d",map-makanan);
+	}
+	else{
+		sprintf(foodText,"0%d",map-makanan);
+	}
 	outtextxy(655,50,"Food Left:");	
 	outtextxy(655, 70, foodText);
 	

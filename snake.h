@@ -30,8 +30,8 @@
 #define LEVEL4 16
 #define LEVEL5 18
 
-#define PENDEK 1
-#define POISON 2
+#define PENDEK 2
+#define POISON 1
 
 #define MAIN_MENU 0
 #define CLASSIC_GAMEPLAY 1
@@ -78,6 +78,8 @@ extern Coordinat foodCoordinat;
 extern Coordinat goldCoordinat;
 
 extern Coordinat misteryBoxCoordinat;
+
+extern int snakeSpeed;
 
 #include"Header\\YORDY_W.h"
 #include"Header\\AKMAL_R.h"

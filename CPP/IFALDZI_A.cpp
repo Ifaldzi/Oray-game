@@ -74,7 +74,7 @@ void gameOver(int prevGameState){
 	readimagefile("game_over.gif",0,0,MAX_WIDTH, MAX_HEIGHT);
 	printFinalScore(score, 350, 410);
 	setvisualpage(getactivepage());
-	if(checkHighScore()){
+	if(checkHighScore() && prevGameState == CLASSIC_GAMEPLAY){
 		outtextxy(350,350,"In leaderboard");
 		putHighScore();
 	}
@@ -87,6 +87,7 @@ void gameOver(int prevGameState){
 			}
 			else if(mouseX >= 483 && mouseY >= 434 && mouseX <= 511 && mouseY <=462){
 				gameState = prevGameState;
+				stage = 1;
 				break;
 			}
 			printf("x:%d y:%d\n",mouseX, mouseY);

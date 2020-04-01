@@ -47,34 +47,39 @@ void mainMenu(){
 								setviewport(0,0,800,600,1);	//Level 1
 								gameState = ADVENTURE_GAMEPLAY;
 								stage = 1;
+								snakeSpeed = 50;
 								swapbuffers();
 								return;
 						}else if ((x > 339 && x < 372) && (y > 323 && y < 355)){
 								clearviewport();
 								setviewport(0,0,800,600,1);	//Level 2
 								gameState = ADVENTURE_GAMEPLAY;
-								stage = 2;
+								stage = 1;
+								snakeSpeed = 45;
 								swapbuffers();
 								return;
 						}else if((x > 406 && x < 454) && (y > 252 && y < 299)){
 								clearviewport();
 								setviewport(0,0,800,600,1);	
 								gameState = ADVENTURE_GAMEPLAY;
-								stage = 3;
+								stage = 1;
+								snakeSpeed = 40;
 								swapbuffers();		//Level 3
 								return;
 						}else if((x > 436 && x < 486) && (y > 353 && y < 403)){	//level 4
 								clearviewport();
 								setviewport(0,0,800,600,1);	
 								gameState = ADVENTURE_GAMEPLAY;
-								stage = 4;
+								stage = 1;
+								snakeSpeed = 30;
 								swapbuffers();
 								return;
 						}else if((x > 518 && x < 570) && (y > 279 && y < 332)){	//level 5
 								clearviewport();
 								setviewport(0,0,800,600,1);	
 								gameState = ADVENTURE_GAMEPLAY;
-								stage = 5;
+								stage = 1;
+								snakeSpeed = 20;
 								swapbuffers();
 								return;
 						}else if((x > 347 && x < 500) && (y > 426 && y<456)){
