@@ -24,14 +24,18 @@
 #define LENGTH_TEXT 256
 
 #define CLASSIC 0
-#define LEVEL1 1
-#define LEVEL2 2
-#define LEVEL3 3
-#define LEVEL4 4
-#define LEVEL5 5
+#define LEVEL1 10
+#define LEVEL2 12
+#define LEVEL3 14
+#define LEVEL4 16
+#define LEVEL5 18
 
-#define PENDEK 1
-#define POISON 2
+#define PENDEK 2
+#define POISON 1
+
+#define FOOD 1
+#define GOLD 2
+#define BOX 3
 
 #define MAIN_MENU 0
 #define CLASSIC_GAMEPLAY 1
@@ -69,6 +73,12 @@ extern tNode *Head, *pNew,*prev;
 extern struct oray *head, *tail;
 
 extern int score, gameState, stage;
+
+extern Coordinat foodCoordinat;
+
+extern Coordinat goldCoordinat;
+
+extern Coordinat misteryBoxCoordinat;
 
 extern void *bk;
 
