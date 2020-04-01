@@ -13,9 +13,9 @@ void displayUlar();
 
 void resetPage();
 
-void gameOver();
+void gameOver(int prevGameState);
 
-void printFinalScore();
+void printFinalScore(int tempScore, int x, int y);
 
 bool checkHighScore();
 
@@ -24,5 +24,9 @@ void putHighScore();
 void printLeaderBoard();
 
 void removeItem(Coordinat itemCoordinate);
+
+void sortScore();
+
+void gameCompleted();
 
 #endif

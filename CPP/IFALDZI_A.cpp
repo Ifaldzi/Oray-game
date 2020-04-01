@@ -31,6 +31,7 @@ void renderUlar(){
 	int page;
 	page = getactivepage();
 	setactivepage(3);
+	void *bk;
 	void *bk2,*bk3;
 	int x1,y1,x2,y2;
 	x1 = tail->x;
@@ -65,13 +66,13 @@ void resetPage(){
 	}
 }
 
-void gameOver(){
+void gameOver(int prevGameState){
 	int mouseX, mouseY;
 	char *scoreText = (char *)malloc(sizeof(LENGTH_TEXT));
 	setactivepage(1);
 	sprintf(scoreText, "Your Score: %d", score);
 	readimagefile("game_over.gif",0,0,MAX_WIDTH, MAX_HEIGHT);
-	printFinalScore();
+	printFinalScore(score, 350, 410);
 	setvisualpage(getactivepage());
 	if(checkHighScore()){
 		outtextxy(350,350,"In leaderboard");
@@ -85,7 +86,7 @@ void gameOver(){
 				break;
 			}
 			else if(mouseX >= 483 && mouseY >= 434 && mouseX <= 511 && mouseY <=462){
-				gameState = CLASSIC_GAMEPLAY;
+				gameState = prevGameState;
 				break;
 			}
 			printf("x:%d y:%d\n",mouseX, mouseY);
@@ -93,26 +94,28 @@ void gameOver(){
 	}
 }
 
-void printFinalScore(){
+void printFinalScore(int tempScore, int x, int y){
 	int endScore[10];
 	char *scoreNumber = (char*)malloc(sizeof(LENGTH_TEXT));
-	int count = 0, tempScore = score;
+	int count = 0;
 	do{
 		endScore[count] = tempScore % 10;
 		tempScore /= 10;
 		count++;
 	}
-	while(tempScore != 0);
-	int i = count;
-	int position = 350;
+	while(tempScore > 0);
+	int i;
+	count--;
+	int position = x; // 350  410//
 	for(i=count;i>=0;i--){
 		sprintf(scoreNumber, "number\\number%d.gif",endScore[i]);
-		readimagefile(scoreNumber, position, 410, position+30, 440);
+		readimagefile(scoreNumber, position, y, position+30, y+30);
 		position += 30;
 	}
 }
 
 bool checkHighScore(){
+	sortScore();
 	FILE *fp = fopen("High_Score.dat", "rb");
 	int tempScore, position = 0;
 	fread(&tempScore,sizeof(int),1,fp);
@@ -133,6 +136,7 @@ bool checkHighScore(){
 }
 
 void putHighScore(){
+	sortScore();
 	FILE *fp = fopen("High_Score.dat", "rb+");
 	int position = 0, tempScore;
 	fread(&tempScore, sizeof(int), 1, fp);
@@ -147,14 +151,33 @@ void putHighScore(){
 }
 
 void printLeaderBoard(){
+	sortScore();
 	FILE *fp = fopen("High_Score.dat", "rb");
+	setactivepage(1);
+	readimagefile("leaderboard.gif", 0, 0, MAX_WIDTH, MAX_HEIGHT);
 	int tempScore;
+	int x, y;
+	x = 350;
+	y = 200;
 	fread(&tempScore, sizeof(int), 1, fp);
 	while(! feof(fp)){
+		printFinalScore(tempScore, x, y);
 		printf("%d\n", tempScore);
 		fread(&tempScore, sizeof(int), 1, fp);
+		y+=50;
 	}
 	fclose(fp);
+	setvisualpage(1);
+	while(true){
+		Coordinat mouse;
+		if(ismouseclick(WM_LBUTTONDOWN)){
+			getmouseclick(WM_LBUTTONDOWN, mouse.x, mouse.y);
+//			printf("x=%d, y=%d", mouse.x, mouse.y);
+			if(mouse.x>=695 && mouse.y>=503 && mouse.x<=742 && mouse.y<=548){
+				return;
+			}
+		}
+	}
 }
 
 void removeItem(Coordinat itemCoordinate){
@@ -167,4 +190,55 @@ void removeItem(Coordinat itemCoordinate){
 	getimage(itemCoordinate.x, itemCoordinate.y, itemCoordinate.x+30, itemCoordinate.y+30, p);
 	setactivepage(page);
 	putimage(itemCoordinate.x, itemCoordinate.y, p, 0);
+}
+
+void sortScore(){
+	FILE *fp = fopen("High_Score.dat","rb+");
+	int tempScore1, tempScore2;
+	int i=0;
+	int j;
+	fread(&tempScore1, sizeof(int), 1, fp);
+	while(!feof(fp)){
+		j=i+1;
+		fseek(fp,j*sizeof(int),SEEK_SET);
+		fread(&tempScore2, sizeof(int), 1, fp);
+		while(!feof(fp)){
+			if(tempScore2 > tempScore1){
+				//swap//
+				fseek(fp,i*sizeof(int),SEEK_SET);
+				fwrite(&tempScore2,sizeof(int),1,fp);
+				fseek(fp,j*sizeof(int),SEEK_SET);
+				fwrite(&tempScore1,sizeof(int),1,fp);
+				tempScore1 = tempScore2;
+			}
+			j++;
+			fseek(fp,j*sizeof(int),SEEK_SET);
+			fread(&tempScore2,sizeof(int),1,fp);
+		}
+		i++;
+		fseek(fp,i*sizeof(int),SEEK_SET);
+		fread(&tempScore1,sizeof(int),1,fp);
+	}
+	fclose(fp);
+}
+
+void gameCompleted(){
+	readimagefile("win-game.gif",0,0,MAX_WIDTH, MAX_HEIGHT);
+	Coordinat mouse;
+	setvisualpage(getactivepage());
+	while(true){
+		if(ismouseclick(WM_LBUTTONDOWN)){
+			getmouseclick(WM_LBUTTONDOWN, mouse.x, mouse.y);
+			printf("%d %d\n", mouse.x, mouse.y);
+			if(mouse.x>=499 && mouse.y>=345 && mouse.x<=553 && mouse.y <=398){
+				stage = 1;
+				score = 0;
+				return;
+			}
+			else if(mouse.x>=647 && mouse.y>=475 && mouse.x<=695 && mouse.y<=520){
+				gameState = MAIN_MENU;
+				return;
+			}
+		}
+	}
 }

@@ -30,17 +30,16 @@
 #define LEVEL4 16
 #define LEVEL5 18
 
-#define PENDEK 2
-#define POISON 1
-
-#define FOOD 1
-#define GOLD 2
-#define BOX 3
+#define PENDEK 1
+#define POISON 2
 
 #define MAIN_MENU 0
 #define CLASSIC_GAMEPLAY 1
 #define ADVENTURE_GAMEPLAY 2
-#define GAME_OVER 3
+
+#define FOOD 1
+#define GOLD 2
+#define BOX 3
 
 struct oray{
 	int x, y, dir;
@@ -58,7 +57,7 @@ typedef struct {
 }Coordinat;
 
 typedef struct tNode{
-	Tembok Coordinat	;
+	Tembok Coordinat;
 	tNode *next;
 }Node;
 
@@ -80,9 +79,7 @@ extern Coordinat goldCoordinat;
 
 extern Coordinat misteryBoxCoordinat;
 
-extern void *bk;
-
-#include"Header\\Yordy_W.h"
+#include"Header\\YORDY_W.h"
 #include"Header\\AKMAL_R.h"
 #include"Header\\IFALDZI_A.h"
 #include"Header\\GILANG_L.h"

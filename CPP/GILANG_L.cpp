@@ -228,8 +228,8 @@ void obstacleStage2(){				//gambar tembok belum fix
 	Y = 0;
 		//Bottom
 		for( i = 0; i <4; i++){	 
-		readimagefile("brick.GIF",X+120,MAX_Y-150,X+150,MAX_Y-180);
-		Obstacle.x = X+210;
+		readimagefile("brick.GIF",X+120,Y+450,X+150,Y+480);
+		Obstacle.x = X+120;
 		Obstacle.y = 450;
 		insertFront(&Head, Obstacle);
 		X=X+30;
@@ -237,7 +237,7 @@ void obstacleStage2(){				//gambar tembok belum fix
 	X = 0;
 	Y = 0;
 		for( i = 0; i <4; i++){
-		readimagefile("brick.GIF",X+390,MAX_Y-150,X+420,MAX_Y-180);
+		readimagefile("brick.GIF",X+390,Y+450,X+420,Y+480);
 		Obstacle.x = X+390;
 		Obstacle.y = 450;
 		insertFront(&Head, Obstacle);
@@ -270,18 +270,18 @@ void obstacleStage2(){				//gambar tembok belum fix
 		//	Bottom
 	for(i=0;i<4;i++){
 		
-		readimagefile("brick.GIF",X+120,Y+450,X+150,Y+420);
+		readimagefile("brick.GIF",X+120,Y+420,X+150,Y+450);
 		Obstacle.x = 120;
-		Obstacle.y = Y+450;
+		Obstacle.y = Y+420;
 		insertFront(&Head, Obstacle);
 		Y=Y-30;
 	}
 	X = 0;
 	Y = 0;
 	for(i=0;i<4;i++){
-		readimagefile("brick.GIF",X+480,Y+450,X+510,Y+420);
+		readimagefile("brick.GIF",X+480,Y+420,X+510,Y+450);
 		Obstacle.x = 480;
-		Obstacle.y = Y+450;
+		Obstacle.y = Y+420;
 		insertFront(&Head, Obstacle);
 		Y=Y-30;
 	}

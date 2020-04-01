@@ -15,7 +15,6 @@ int main(){
 			break;
 			case ADVENTURE_GAMEPLAY: score = 0; adventure(stage);
 			break;
-			case GAME_OVER: gameOver();
 		}
 	}
 	closegraph();

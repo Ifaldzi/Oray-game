@@ -88,7 +88,9 @@ void mainMenu(){
 	
 		else if ((x > 318 && x < 558) && (y > 335 && y < 381)){
 			//Menampilkan High score
+//			gameState = LEADER_BOARD;
 			printLeaderBoard();
+			return;
 		}
 		else if ((x > 244 && x < 489) && (y > 398 && y < 445)){
 			while (!kembali){

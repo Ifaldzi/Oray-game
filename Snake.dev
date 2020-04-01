@@ -51,7 +51,7 @@ AutoIncBuildNr=0
 SyncProduct=1
 
 [Unit2]
-FileName=Header\Yordy_W.h
+FileName=Header\YORDY_W.h
 CompileCpp=1
 Folder=Header
 Compile=1
@@ -61,7 +61,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit1]
-FileName=CPP\Yordy_W.cpp
+FileName=CPP\YORDY_W.cpp
 CompileCpp=1
 Folder=CPP
 Compile=1

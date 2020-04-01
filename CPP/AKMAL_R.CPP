@@ -7,14 +7,10 @@ Coordinat random(int x){
 	
 	Coordinat randomFood;
 	srand((unsigned)time(NULL)+x);
-	
 	do{
-		
 		randomFood.x = (rand() % X_MAX);
 		randomFood.y = (rand() % Y_MAX);
-		
-	} while(randomFood.x%30!=0 || randomFood.y%30!=0 || CheckCollision(randomFood.x, randomFood.y) || checkCollisionTembokFood(randomFood));
-	
+	} while(randomFood.x%30!=0 || randomFood.y%30!=0 || CheckCollision(randomFood.x, randomFood.y) || checkCollisionTembokFood(randomFood) || !CheckCollisionFood(randomFood,x));
 	return randomFood;
 	
 }
@@ -38,33 +34,26 @@ void spawnMisteryBox(Coordinat foodCoordinat){
 }
 
 int misteryBoxRatio(){
-	
 	int presentase;
 	srand(time(0));
 	presentase = rand()%100+1;
-	
 	if(presentase>70){
-		
 		return PENDEK;
-		
 	}else{
-		
 		return POISON;
-		
 	}	
 }
 
 void transisi(){
-	if(makanan == 0){
-		
+	if(stage <5){
 		readimagefile("stageclear.gif",0,0,620,600);
 		stage++;
+		setvisualpage(getactivepage());
+		delay(5000);
 		adventure(stage);
-		
-	}else{
-		
-		gameState = GAME_OVER;
-		
+	}
+	else{
+		gameCompleted();
 	}
 }
 
@@ -72,7 +61,7 @@ void printMakananSisa(int map,int makanan){
 	
 	char foodText[10];
 	sprintf(foodText, "%d",map-makanan);
-	outtextxy(655,50,"SCORE");	
+	outtextxy(655,50,"Food Left:");	
 	outtextxy(655, 70, foodText);
 	
 }
@@ -80,10 +69,9 @@ void printMakananSisa(int map,int makanan){
 void printWaktuPoison(int time){
 	
 	char poisonText[10];
-	sprintf(poisonText, "%d", time);
-	outtextxy(655,90,"SCORE");	
+	sprintf(poisonText, "%d", 10-time);
+	outtextxy(655,90,"Time:");	
 	outtextxy(655, 110, poisonText);
 	
 }
-
 

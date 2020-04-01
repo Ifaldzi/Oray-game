@@ -136,10 +136,22 @@ void map1(int level){
 	}
 	else if(level == LEVEL1){
 		backgroundClassic();
-		border();
-	}else{
+		obstacleStage1();
+	}else if(level == LEVEL2){
 		backgroundClassic();
-		border();
+		obstacleStage2();
+	}
+	else if(level == LEVEL3){
+		backgroundClassic();
+		obstacleStage3();
+	}
+	else if(level == LEVEL4){
+		backgroundClassic();
+		obstacleStage4();
+	}
+	else if(level == LEVEL5){
+		backgroundClassic();
+		obstacleStage5();
 	}
 }
 
@@ -176,7 +188,7 @@ void ular(int kecepatan,int map){
 	background = malloc(area);
 	foodCoordinat = random(FOOD);
 	spawnFood(foodCoordinat);
-	getimage(0,0,630,600,p);
+	getimage(0,0,800,600,p);
 //	push(0,0,"ular\\head_kanan.gif",KANAN);// Ieu naon sih gunana
 	spawnUlar(x,y,snakeSize);
 	push(x,y,"ular\\tail1.gif",KANAN);//Apa lagi ini :u
@@ -373,12 +385,14 @@ void ular(int kecepatan,int map){
 				break;
 		}
 		if(map != CLASSIC){
+			printMakananSisa(map, makanan);
 			if(waktu == 5 && box != 1){
 				ftime(&lastTimeFood);//Ganti
 				misteryBoxCoordinat = random(BOX);
 				spawnMisteryBox(misteryBoxCoordinat);
 				box = 1;
 			}else if( box == 0){
+				removeItem(misteryBoxCoordinat);
 				misteryBoxCoordinat.x = 0;
 				misteryBoxCoordinat.y = 0;
 			}
@@ -388,6 +402,7 @@ void ular(int kecepatan,int map){
 				spawnGoldFood(goldCoordinat);
 				gold = 1;
 			}else if (gold == 0){
+				removeItem(goldCoordinat);
 				goldCoordinat.x = 0;
 				goldCoordinat.y = 0;
 				//Ilangin disini ifaldzi ................................
@@ -399,6 +414,7 @@ void ular(int kecepatan,int map){
 			}
 			if(makanan == map){
 				//Transisi di sini
+				transisi();
 				break;
 			}	
 			interval = baka(status,lastTimeFood); 
@@ -419,6 +435,9 @@ void ular(int kecepatan,int map){
 				pop();
 				pop();
 			}
+			else if(status == 1){
+				printWaktuPoison(interval);
+			}
 		}
 		else{
 			foodCoordinat = random(FOOD);
@@ -428,35 +447,38 @@ void ular(int kecepatan,int map){
 		}
 		waktu = baka(1,now);
 		displayUlar();
-		getimage(0,0, 630, 600, p);
+		getimage(0,0, 800, 600, p);
 		delay(kecepatan);
 		swapbuffers();
 	}
 }
 
 void classic(){
-	ular(50,LEVEL1);
+	ular(50,CLASSIC);
 	getch();
 	popAll();
+//	gameState = GAME_OVER;
+	gameOver(gameState);
 }
 
 void adventure(int level){
-	if(level == LEVEL1){
+	if(level == 1){
 		ular(50,LEVEL1);
 	}
-	else if(level == LEVEL2){
+	else if(level == 2){
 		ular(50,LEVEL2);
 	}
-	else if(level == LEVEL3){
-		ular(50,LEVEL1);
+	else if(level == 3){
+		ular(50,LEVEL3);
 	}
-	else if(level == LEVEL4){
-		ular(50,LEVEL1);
+	else if(level == 4){
+		ular(50,LEVEL4);
 	}
-	else if(level == LEVEL5){
-		ular(50,LEVEL1);
+	else if(level == 5){
+		ular(50,LEVEL5);
 	}
-		
+//	gameState = GAME_OVER;
+	gameOver(gameState);
 }
 
 

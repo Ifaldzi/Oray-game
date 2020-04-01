@@ -28,3 +28,6 @@ void adventure(int level);
 bool CheckCollisionFood(Coordinat food, int x);
 
 #endif
+
+
+
