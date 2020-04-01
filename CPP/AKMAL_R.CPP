@@ -7,10 +7,14 @@ Coordinat random(int x){
 	
 	Coordinat randomFood;
 	srand((unsigned)time(NULL)+x);
+	
 	do{
+		
 		randomFood.x = (rand() % X_MAX);
 		randomFood.y = (rand() % Y_MAX);
+		
 	} while(randomFood.x%30!=0 || randomFood.y%30!=0 || CheckCollision(randomFood.x, randomFood.y) || checkCollisionTembokFood(randomFood));
+	
 	return randomFood;
 	
 }
@@ -34,22 +38,52 @@ void spawnMisteryBox(Coordinat foodCoordinat){
 }
 
 int misteryBoxRatio(){
+	
 	int presentase;
 	srand(time(0));
 	presentase = rand()%100+1;
+	
 	if(presentase>70){
+		
 		return PENDEK;
+		
 	}else{
+		
 		return POISON;
+		
 	}	
 }
 
 void transisi(){
 	if(makanan == 0){
+		
 		readimagefile("stageclear.gif",0,0,620,600);
-		level++;
+		stage++;
 		adventure(stage);
+		
 	}else{
+		
 		gameState = GAME_OVER;
+		
 	}
 }
+
+void printMakananSisa(int map,int makanan){
+	
+	char foodText[10];
+	sprintf(foodText, "%d",map-makanan);
+	outtextxy(655,50,"SCORE");	
+	outtextxy(655, 70, foodText);
+	
+}
+
+void printWaktuPoison(int time){
+	
+	char poisonText[10];
+	sprintf(poisonText, "%d", time);
+	outtextxy(655,90,"SCORE");	
+	outtextxy(655, 110, poisonText);
+	
+}
+
+
